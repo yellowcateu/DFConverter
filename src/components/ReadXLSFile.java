@@ -18,7 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 public class ReadXLSFile {
     
     private File xlsFile;
-    private String[] ColumnsID = {"IndeksLeku-","IloscSprzedana-","NazwaLeku--------------------------------------------------","CenaDetaliczna--","CenaDetBrutto-","Vat-","KwotaVat---"};
+    private String[] ColumnsID = {"IndeksLeku-","IloscSprzedana-","NazwaLeku--------------------------------------------------","CenaHurtowa-","CenaHurBrutto--","Vat-","KwotaVat---"};
     private String LekID, LekOfeIlosc, LekNazwa, LekCenaDet, LekCenaDetBr, LekVat, LekKwotaVat;
 
     
@@ -107,7 +107,7 @@ public class ReadXLSFile {
                     else if (cell.getColumnIndex() == 10){
                         if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC){
                             tempdouble = cell.getNumericCellValue();  
-                            LekCenaDet = doSpaces(ColumnsID[3].length(), String.format("%.2f", tempdouble).replace(',', '.'), false);
+                            LekCenaDet = doSpaces(ColumnsID[3].length(), String.format("%.5f", tempdouble).replace(',', '.'), false);
                             resultDF += tempdouble+ "\t\t";
                         }else if(cell.getCellType()==Cell.CELL_TYPE_STRING){
                             LekCenaDet = doSpaces(ColumnsID[3].length()-1,cell.getStringCellValue(),true);
@@ -118,8 +118,15 @@ public class ReadXLSFile {
                         if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC){
                             tempdouble = cell.getNumericCellValue();
                             tempdouble = setPrecision(tempdouble, 2)*100;  
+                            
                             int x;
-                            x = Integer.parseInt(String.valueOf(tempdouble).substring(0, 1));
+                            
+                            if(String.valueOf(tempdouble).length()==4){
+                                x = Integer.parseInt(String.valueOf(tempdouble).substring(0, 2));
+                            }else{
+                                x = Integer.parseInt(String.valueOf(tempdouble).substring(0, 1));
+                            }
+                            
                             LekVat = doSpaces(ColumnsID[5].length(), String.valueOf(x)+"%", false);
                             resultDF += tempdouble+ "\t\t";
                         }else if(cell.getCellType()==Cell.CELL_TYPE_STRING){
@@ -130,7 +137,7 @@ public class ReadXLSFile {
                     else if (cell.getColumnIndex() == 12){
                         if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC){
                             tempdouble = cell.getNumericCellValue(); 
-                            LekCenaDetBr = doSpaces(ColumnsID[4].length(), String.format("%.2f", tempdouble).replace(',', '.'), false);
+                            LekCenaDetBr = doSpaces(ColumnsID[4].length(), String.format("%.5f", tempdouble).replace(',', '.'), false);
                             resultDF += tempdouble+ "\t\t";
                         }else if(cell.getCellType()==Cell.CELL_TYPE_STRING){
                             LekCenaDetBr = doSpaces(ColumnsID[4].length()-1,cell.getStringCellValue(),true);

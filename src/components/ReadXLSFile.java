@@ -18,7 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 public class ReadXLSFile {
     
     private File xlsFile;
-    private String[] ColumnsID = {"IndeksLeku-","IloscSprzedana-","NazwaLeku--------------------------------------------------","CenaHurtowa-","CenaHurBrutto--","Vat-","KwotaVat---"};
+    private String[] ColumnsID = {"IndeksLeku--","IloscSprzedana-","NazwaLeku--------------------------------------------------","CenaHurtowa-","CenaHurBrutto--","Vat-","KwotaVat---"};
     private String LekID, LekOfeIlosc, LekNazwa, LekCenaDet, LekCenaDetBr, LekVat, LekKwotaVat;
 
     
@@ -127,7 +127,7 @@ public class ReadXLSFile {
                                 x = Integer.parseInt(String.valueOf(tempdouble).substring(0, 1));
                             }
                             
-                            LekVat = doSpaces(ColumnsID[5].length(), String.valueOf(x)+"%", false);
+                            LekVat = doSpaces(ColumnsID[5].length(), String.valueOf(x), true);
                             resultDF += tempdouble+ "\t\t";
                         }else if(cell.getCellType()==Cell.CELL_TYPE_STRING){
                             LekVat = doSpaces(ColumnsID[5].length()-1,cell.getStringCellValue(),true);
